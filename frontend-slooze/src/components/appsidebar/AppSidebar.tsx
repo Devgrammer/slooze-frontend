@@ -10,7 +10,6 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  SidebarRail,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import {
@@ -120,7 +119,7 @@ const AppSidebar = () => {
     ],
   };
   return (
-    <Sidebar collapsible="offcanvas">
+    <Sidebar collapsible="offcanvas" >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
