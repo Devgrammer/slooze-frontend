@@ -32,7 +32,7 @@ const Layout = () => {
     <div className="main-container w-screen flex">
       <div className="side-menu-panel w-fit">
         {" "}
-        <SidebarProvider>
+        <SidebarProvider >
           <AppSidebar />
         </SidebarProvider>
       </div>
@@ -83,7 +83,7 @@ const Layout = () => {
           </div>
         </div>
         {/* WORKSPACE REGION */}
-        <main className="w-full sticky top-0 p-4">
+        <main className="w-full min-h-screen sticky top-0 p-4">
           <Outlet />
         </main>
       </div>
