@@ -29,6 +29,7 @@ import {
   RiSettings5Line,
   RiIdCardLine,
 } from "react-icons/ri";
+import { Link } from "react-router";
 
 const AppSidebar = () => {
   const data = {
@@ -61,7 +62,7 @@ const AppSidebar = () => {
           },
           {
             title: "Add Product",
-            url: "#",
+            url: "add-product",
           },
         ],
       },
@@ -119,12 +120,12 @@ const AppSidebar = () => {
     ],
   };
   return (
-    <Sidebar collapsible="offcanvas" >
+    <Sidebar collapsible="icon" variant="icon" >
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
+              <Link to="#">
                 <Avatar>
                   <AvatarImage src="https://github.com/shadcn.png" />
                   <AvatarFallback>CN</AvatarFallback>
@@ -133,8 +134,7 @@ const AppSidebar = () => {
                   <span className="font-medium">Bitstore</span>
                   <span className="">v1.0.0</span>
                 </div>
-                <SidebarTrigger />
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

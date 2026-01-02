@@ -86,9 +86,9 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Manage",
     cell: () => {
       return (
-        <div className="manage-action">
-          <Button onClick={() => alert(`Editing user `)}>edit</Button>
-          <Button onClick={() => alert(`Editing user `)}>delete</Button>
+        <div className="manage-action space-x-4 flex items-center">
+          <Button role={'danger'} onClick={() => alert(`Editing user `)}>Edit</Button>
+          <Button onClick={() => alert(`Editing user `)}>Delete</Button>
         </div>
       );
     },

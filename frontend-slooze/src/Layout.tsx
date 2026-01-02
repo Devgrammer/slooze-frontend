@@ -4,7 +4,7 @@ import AppSidebar from "./components/appsidebar/AppSidebar";
 import { Outlet } from "react-router";
 import { Input } from "./components/ui/input";
 import { Button } from "./components/ui/button";
-import { Bell, Search } from "lucide-react";
+import { Bell, Moon, Sun } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -16,38 +16,46 @@ import {
 } from "@/components/ui/select";
 import { RiFunctionLine } from "react-icons/ri";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { SidebarInset, SidebarTrigger } from "./components/ui/sidebar";
+import { useTheme } from "./context/theme";
 
 const Layout = () => {
-    const role = [
+  const role = [
     {
       label: "Admin",
       value: "admin",
     },
     {
       label: "Manager",
-      value: 'manager',
+      value: "manager",
     },
   ];
+   const { theme, setTheme } = useTheme();
   return (
-    <div className="main-container w-screen flex">
-      <div className="side-menu-panel w-fit">
-        {" "}
-        <SidebarProvider >
-          <AppSidebar />
-        </SidebarProvider>
-      </div>
-      <div className="workspace bg-indigo-50 w-screen  box-border space-y-8 overflow-x-hidden">
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset className="workspace min-h-screen">
         {/* TOP NAVBAR */}
-        <div className="top-nav flex justify-between p-4">
+        <div className="top-nav flex justify-between p-4 box-border">
+          <SidebarTrigger />
           <div className="search flex justify-start items-center gap-x-2">
             <Input
               type="text"
-              className="max-w-lg bg-white"
+              className="w-92 bg-white"
               placeholder="Search the products"
             />
             <Button>Search</Button>
           </div>
           <div className="search flex justify-start items-center gap-x-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setTheme(theme === "light"?"dark":"light")}
+            >
+              <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
             {/* ROLE DROPDOWN */}
             <Select className="!bg-white">
               <SelectTrigger className="w-[100px] bg-white">
@@ -82,12 +90,12 @@ const Layout = () => {
             </Avatar>
           </div>
         </div>
-        {/* WORKSPACE REGION */}
-        <main className="w-full min-h-screen sticky top-0 p-4">
+        <div className="border-box p-4 pb-24">
           <Outlet />
-        </main>
-      </div>
-    </div>
+        </div>
+        {/* WORKSPACE REGION */}
+      </SidebarInset>
+    </SidebarProvider>
   );
 };
 

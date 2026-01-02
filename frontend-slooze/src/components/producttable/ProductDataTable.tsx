@@ -54,7 +54,7 @@ export function ProductDataTable<TData, TValue>({
   });
 
   return (
-    <div className="overflow-hidden rounded-md border bg-white">
+    <div className="overflow-hidden rounded-md border">
       <div className="flex items-center p-4 ">
         <Input
           placeholder="Filter emails..."
@@ -107,7 +107,7 @@ export function ProductDataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="flex items-center justify-end space-x-2 p-6">
         <Button
           variant="outline"
           size="sm"

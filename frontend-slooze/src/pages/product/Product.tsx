@@ -5,6 +5,7 @@ import { columns} from '../../components/producttable/ProductColumn'
 import { Card, CardContent } from '../../components/ui/card'
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '../../components/ui/chart'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
+import PageTitleBar from '../../components/pagetitlebar/PageTitleBar'
 
 
 const Product = () => {
@@ -137,11 +138,7 @@ const chartConfig = {
   } satisfies ChartConfig;
   return (
     <div>
-      <div className="page-title-box flex justify-between">
-        <p className="page-title">Product</p>
-
-        <Button>Add Product</Button>
-      </div>
+     <PageTitleBar title="Product" path="/add-product" buttonTitle='Add Product'/>
       <div className="Product-container grid grid-cols-12 gap-x-4">
         <div className="table-box col-span-9">
           <ProductDataTable columns={columns} data={data} />
