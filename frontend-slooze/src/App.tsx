@@ -15,10 +15,10 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/" element={<Layout />} >
-      <Route path="dashboard" element={<DashBoard />} />
-      <Route path="product" element={<Product />} />
-      <Route path="add-product" element={<AddProduct />} />
+      <Route path="/" element={<Layout />}>
+        <Route path="dashboard" element={<DashBoard />} />
+        <Route path="product" element={<Product />} />
+        <Route path="add-product" element={<AddProduct />} />
       </Route>
     </Routes>
   );

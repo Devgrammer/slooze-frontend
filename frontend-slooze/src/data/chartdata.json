@@ -1,0 +1,14 @@
+[
+  { "month": "January", "desktop": 186, "mobile": 320 },
+  { "month": "February", "desktop": 305, "mobile": 415 },
+  { "month": "March", "desktop": 237, "mobile": 380 },
+  { "month": "April", "desktop": 73, "mobile": 185 },
+  { "month": "May", "desktop": 209, "mobile": 340 },
+  { "month": "June", "desktop": 278, "mobile": 420 },
+  { "month": "July", "desktop": 214, "mobile": 365 },
+  { "month": "August", "desktop": 175, "mobile": 310 },
+  { "month": "September", "desktop": 314, "mobile": 480 },
+  { "month": "October", "desktop": 230, "mobile": 390 },
+  { "month": "November", "desktop": 180, "mobile": 320 },
+  { "month": "December", "desktop": 120, "mobile": 280 }
+]
