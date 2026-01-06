@@ -3,3 +3,6 @@ fontend-slooze/.env
 
 .env
 *.env
+
+**/.env
+**/*.env
