@@ -5,6 +5,7 @@ const express = require('express')
 const app = express();
 const connectToDb = require('./db/db')
 const userRoutes = require('./routes/user.routes')
+const productRoutes = require('./routes/product.routes')
 const cookieParser = require("cookie-parser")
 const session = require("express-session")
 
@@ -27,6 +28,7 @@ app.get('/', (req, res)=>{
 })
 
 app.use('/users', userRoutes)
+app.use('/products', productRoutes)
 
 
 module.exports = app;
