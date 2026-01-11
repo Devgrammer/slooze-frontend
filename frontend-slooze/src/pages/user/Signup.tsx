@@ -1,8 +1,10 @@
-import React, { useContext, useState, type ChangeEvent } from "react";
+import React, { useState, type ChangeEvent } from "react";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { API_URLS } from "../../constant/api";
+import { toast } from "sonner";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -11,28 +13,34 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "../../components/ui/label";
-import axios from "axios";
-import { API_URLS } from "../../constant/api";
-import { useAuth } from "../../context/authContext";
 import { useNavigate } from "react-router";
-const Login = () => {
+import { useAuth } from "../../context/authContext";
+const Signup = () => {
   const [formData, setFromData] = useState({
+    name: "",
     email: "",
     password: "",
+    role: "",
   });
   const navigate = useNavigate();
   const { setUser, setIsLoading, setError } = useAuth();
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
-      const response = await axios.post(API_URLS.LOGIN, formData);
+      setIsLoading(true);
+      const response = await axios.post(API_URLS.REGISTER, formData);
       if (response.status === 201) {
         const { token, user } = response.data;
         sessionStorage.setItem("token", token);
         sessionStorage.setItem("user", JSON.stringify(user));
         setUser(user);
+        setFromData({ name: "", email: "", password: "", role: "" });
+        toast("Registered Successfully!");
         navigate("/dashboard");
+        setIsLoading(false);
       }
     } catch (error) {
       console.error(error);
@@ -45,18 +53,26 @@ const Login = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFromData({ ...formData, [e.target.name]: e.target.value });
   };
-
   return (
     <div className="login-form w-screen min-h-screen flex">
       <div className="login-pane w-1/2 place-content-center place-items-center">
         <Card className="w-full max-w-md space-y-6 ">
           <CardHeader>
             <CardTitle>Welcome</CardTitle>
-            <CardDescription>Login for free</CardDescription>
+            <CardDescription>Register for free</CardDescription>
           </CardHeader>
           <CardContent className="flex-col w-full ">
             <form action="" onSubmit={handleSubmit}>
               <div className="form-container  space-y-6">
+                <div className="form-field grid gap-y-2">
+                  <Label>Name</Label>
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder="John Doe"
+                    onChange={handleChange}
+                  />
+                </div>
                 <div className="form-field grid gap-y-2">
                   <Label>Email</Label>
                   <Input
@@ -77,7 +93,7 @@ const Login = () => {
                 </div>
                 <div className="submit-button mt-12">
                   <Button type="submit" className="w-full ">
-                    Login
+                    Signup
                   </Button>
                 </div>
               </div>
@@ -85,9 +101,9 @@ const Login = () => {
           </CardContent>
           <CardFooter className="flex-col gap-y-2">
             <p className="text-sm">
-              Don't have an account?{" "}
-              <a className="tetx-sm" href="/sign-up">
-                Signup Here.
+              Already have an account?{" "}
+              <a className="tetx-sm" href="/">
+                Login Here.
               </a>
             </p>
           </CardFooter>
@@ -98,4 +114,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

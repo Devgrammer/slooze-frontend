@@ -24,7 +24,7 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "product",
     header: "Product Name",
     cell: ({ row }) => {
-      console.log("ee", row.original.product);
+
       const { product } = row.original;
       return (
         <div className="product-colomn flex gap-x-2 items-center">

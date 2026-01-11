@@ -11,6 +11,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarTrigger,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -29,9 +30,18 @@ import {
   RiSettings5Line,
   RiIdCardLine,
 } from "react-icons/ri";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { SidebarFooter } from "../ui/sidebar";
+import { Button } from "../ui/button";
+import { LucideLogOut } from "lucide-react";
+import { useAuth } from "../../context/authContext";
+import axios from "axios";
+import { API_URLS } from "../../constant/api";
 
 const AppSidebar = () => {
+  const { open } = useSidebar();
+  const navigate = useNavigate();
+  const { clearAuth, setError } = useAuth();
   const data = {
     navMain: [
       {
@@ -119,8 +129,23 @@ const AppSidebar = () => {
       },
     ],
   };
+
+  const handleLogout = async () => {
+    try {
+      const response = await axios.get(API_URLS.LOGOUT);
+      if (response.status === 201) {
+        clearAuth();
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error(error);
+      setError(JSON.stringify(error))
+      clearAuth();
+      navigate("/login");
+    }
+  };
   return (
-    <Sidebar collapsible="icon" variant="icon" >
+    <Sidebar collapsible="icon" variant="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -183,6 +208,12 @@ const AppSidebar = () => {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter>
+        <Button onClick={handleLogout} title="Logout">
+          {open && "Logout"}
+          <LucideLogOut />
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   );
 };
