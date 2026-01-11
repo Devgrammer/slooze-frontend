@@ -1,4 +1,3 @@
-import React from "react";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
 import { Button } from "../../components/ui/button";
@@ -12,12 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { DeleteIcon, Save, Trash, UploadIcon } from "lucide-react";
+import { Save, Trash, UploadIcon } from "lucide-react";
 import PageTitleBar from "../../components/pagetitlebar/PageTitleBar";
 import year from "../../data/year.json"
 
 const AddProduct = () => {
-  const handleSubmit = () => {};
 
   const handleChange = () => {};
   return (
@@ -58,7 +56,7 @@ const AddProduct = () => {
             </div>
             <div className="form-field grid gap-y-2">
               <Label className="!text-neutral-500  ">Product Category</Label>
-              <Select className="!bg-white">
+              <Select >
                 <SelectTrigger className="w-full bg-white">
                   <SelectValue placeholder="Product Category" />
                 </SelectTrigger>

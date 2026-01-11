@@ -9,22 +9,6 @@ import {
   CardTitle,
 } from "../../components/ui/card";
 import {
-  Bar,
-  BarChart,
-  Area,
-  AreaChart,
-  CartesianGrid,
-  XAxis,
-  Line,
-  LineChart,
-} from "recharts";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-  type ChartConfig,
-} from "@/components/ui/chart";
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
@@ -44,14 +28,15 @@ import { AvatarFallback } from "../../components/ui/avatar";
 import { Button } from "../../components/ui/button";
 import { FaChevronDown } from "react-icons/fa6";
 import { Calendar } from "@/components/ui/calendar";
-import { Badge } from "@/components/ui/badge";
 import PageTitleBar from "../../components/pagetitlebar/PageTitleBar";
-import { ArrowUpIcon, NotepadText, NotepadTextDashed, TrendingUp } from "lucide-react";
+import { ArrowUpIcon, NotepadText } from "lucide-react";
 import year from "../../data/year.json";
 import chartData from "../../data/chartdata.json";
 import BarCharts from "../../components/barchart/BarCharts";
 import LineCharts from "../../components/linecharts/LineCharts";
 import AreaCharts from "../../components/areachart/AreaCharts";
+import { type DateRange } from "react-day-picker";
+
 
 const DashBoard = () => {
   const [open, setOpen] = useState(false);
@@ -60,16 +45,6 @@ const DashBoard = () => {
     to: new Date(2025, 6, 15),
   });
 
-  const chartConfig = {
-    desktop: {
-      label: "Desktop",
-      color: "var(--chart-6)",
-    },
-    mobile: {
-      label: "Mobile",
-      color: "var(--chart-5)",
-    },
-  } satisfies ChartConfig;
 
   return (
     <div className="w-full min-h-screen space-y-4">
@@ -160,7 +135,7 @@ const DashBoard = () => {
         <div className="stat filters flex gap-x-4 w-full justify-start items-center">
           <div className="stat-heading text-4xl">Stats</div>
           {/* YEAR */}
-          <Select className="!bg-white">
+          <Select >
             <SelectTrigger className="w-[100px] bg-white">
               <SelectValue placeholder="Year" />
             </SelectTrigger>
@@ -169,7 +144,7 @@ const DashBoard = () => {
                 <SelectLabel>Year</SelectLabel>
                 {year.map((item, index) => {
                   return (
-                    <SelectItem key={`yr-${index}`} value={item.value}>
+                    <SelectItem key={`yr-${index}`} value={item.value.toString()}>
                       {item.label}
                     </SelectItem>
                   );
@@ -215,7 +190,7 @@ const DashBoard = () => {
                 <SelectLabel>Year</SelectLabel>
                 {year.map((item, index) => {
                   return (
-                    <SelectItem key={`yr-${index}`} value={item.value}>
+                    <SelectItem key={`yr-${index}`} value={item.value.toString()}>
                       {item.label}
                     </SelectItem>
                   );
@@ -250,7 +225,7 @@ const DashBoard = () => {
         <div className="stat filters flex gap-x-4 w-full justify-start items-center">
           <div className="stat-heading text-4xl">Stats</div>
           {/* YEAR */}
-          <Select className="!bg-white">
+          <Select >
             <SelectTrigger className="w-[100px] bg-white">
               <SelectValue placeholder="Year" />
             </SelectTrigger>
@@ -259,7 +234,7 @@ const DashBoard = () => {
                 <SelectLabel>Year</SelectLabel>
                 {year.map((item, index) => {
                   return (
-                    <SelectItem key={`yr-${index}`} value={item.value}>
+                    <SelectItem key={`yr-${index}`} value={item.value.toString()}>
                       {item.label}
                     </SelectItem>
                   );
@@ -305,7 +280,7 @@ const DashBoard = () => {
                 <SelectLabel>Year</SelectLabel>
                 {year.map((item, index) => {
                   return (
-                    <SelectItem key={`yr-${index}`} value={item.value}>
+                    <SelectItem key={`yr-${index}`} value={item.value.toString()}>
                       {item.label}
                     </SelectItem>
                   );

@@ -1,22 +1,13 @@
-import React from "react";
 import {
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from "../ui/card";
 import {
-  Bar,
-  BarChart,
   Area,
   AreaChart,
   CartesianGrid,
   XAxis,
   Line,
-  LineChart,
 } from "recharts";
 import {
   ChartContainer,
@@ -24,8 +15,7 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { Avatar, AvatarImage } from "@radix-ui/react-avatar";
-import { AvatarFallback } from "../ui/avatar";
+
 import { cn } from "../../lib/utils";
 
 interface YearOption {
@@ -44,7 +34,7 @@ interface AnalyticsChartProps {
   cl: string;
 }
 
-const AreaCharts = ({ dataX, data, cl }: AnalyticsChartProps) => {
+const AreaCharts = ({ dataX,cl }: AnalyticsChartProps) => {
   const chartConfig = {
     desktop: {
       label: "Desktop",

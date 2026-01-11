@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -10,7 +9,6 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar";
 import {
@@ -145,7 +143,7 @@ const AppSidebar = () => {
     }
   };
   return (
-    <Sidebar collapsible="icon" variant="icon">
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
@@ -193,7 +191,6 @@ const AppSidebar = () => {
                           <SidebarMenuSubItem key={item.title}>
                             <SidebarMenuSubButton
                               asChild
-                              isActive={item.isActive}
                             >
                               <a href={item.url}>{item.title}</a>
                             </SidebarMenuSubButton>

@@ -1,4 +1,3 @@
-import React from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "./components/appsidebar/AppSidebar";
 import { Outlet } from "react-router";
@@ -57,7 +56,7 @@ const Layout = () => {
               <span className="sr-only">Toggle theme</span>
             </Button>
             {/* ROLE DROPDOWN */}
-            <Select className="!bg-white">
+            <Select>
               <SelectTrigger className="w-[100px] bg-white">
                 <SelectValue placeholder="Role" />
               </SelectTrigger>

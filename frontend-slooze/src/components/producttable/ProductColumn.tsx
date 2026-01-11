@@ -1,25 +1,23 @@
-
-
 import type { ColumnDef } from "@tanstack/react-table";
-import type React from "react";
 import { Button } from "../ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
-export type Payment = {
+export type TData = {
   id: string;
   product:{
     name:string;
     img:string;
   }
-  view:string;
-  pricing:string;
-  revenue: string;
+  views:number;
+  pricing:number;
+  revenue: number;
 };
 
-export const columns: ColumnDef<Payment>[] = [
+
+export const columns: ColumnDef<TData>[] = [
   { id:"product",
     accessorKey: "product",
     header: "Product Name",

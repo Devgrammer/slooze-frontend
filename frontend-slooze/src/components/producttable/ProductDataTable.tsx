@@ -22,9 +22,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import {useState}from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -35,9 +36,9 @@ export function ProductDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
+    const [sorting, setSorting] = useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
-      React.useState<ColumnFiltersState>([]);
+      useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
     columns,

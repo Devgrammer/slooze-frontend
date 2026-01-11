@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuth, } from "../context/authContext";
 import { Navigate } from "react-router";
 interface ProtectedRouteType {
   children: React.ReactNode;
