@@ -27,7 +27,7 @@ app.get('/', (req, res)=>{
     res.send("Helllo World")
 })
 
-app.use('/users', userRoutes)
+app.use('/auth', userRoutes)
 app.use('/products', productRoutes)
 
 
