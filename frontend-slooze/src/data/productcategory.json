@@ -1,0 +1,42 @@
+[
+  {
+    "label": "Electronics",
+    "value": "electronics"
+  },
+  {
+    "label": "Clothing",
+    "value": "clothing"
+  },
+  {
+    "label": "Home",
+    "value": "home"
+  },
+  {
+    "label": "Books",
+    "value": "books"
+  },
+  {
+    "label": "Beauty",
+    "value": "beauty"
+  },
+  {
+    "label": "Sports",
+    "value": "sports"
+  },
+  {
+    "label": "Toys",
+    "value": "toys"
+  },
+  {
+    "label": "Automotive",
+    "value": "automotive"
+  },
+  {
+    "label": "Food",
+    "value": "food"
+  },
+  {
+    "label": "Other",
+    "value": "other"
+  }
+]

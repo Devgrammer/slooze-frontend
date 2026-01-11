@@ -13,11 +13,59 @@ import {
 } from "../../components/ui/select";
 import { Save, Trash, UploadIcon } from "lucide-react";
 import PageTitleBar from "../../components/pagetitlebar/PageTitleBar";
-import year from "../../data/year.json"
+import productCategory from "../../data/productcategory.json"
+import discountCategory from "../../data/discountcategory.json"
+import { useState ,type ChangeEvent } from "react";
+
+
+type ProductType={
+  "productName": string;
+  "productCategory": string;
+  "productDescription": string;
+  "productKeyword": string[],
+  "productPrice": number;
+  "productDiscount":number;
+  "productDiscountCategory": string;
+  "productThumbnail": string;
+  "productPreview": string[];
+}
 
 const AddProduct = () => {
+  const [formData,setFormData]= useState<ProductType>({
+  "productName": "",
+  "productCategory": "",
+  "productDescription": "",
+  "productKeyword":[],
+  "productPrice": 0,
+  "productDiscount":0,
+  "productDiscountCategory": "",
+  "productThumbnail": "",
+  "productPreview": []
+});
+    const handleSubmit = async (
+      e: React.FormEvent<HTMLFormElement>
+    ) => {
+      e.preventDefault();
+      console.log("addproduct", formData);
+    };
 
-  const handleChange = () => {};
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement >
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+  const handleImgChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement >
+  ) => {
+    
+console.log('img', e.target.value)
+  };
+
+  const handleValueChange = (
+    value: string, name:string
+  ) => {
+ setFormData({ ...formData, [name]:value });
+  };
   return (
     <div className="add-product-container space-y-12">
       <PageTitleBar
@@ -25,7 +73,7 @@ const AddProduct = () => {
         path="/add-product"
         buttonTitle="Add Product"
       />
-      <form action="" className="ml-8">
+      <form onSubmit={handleSubmit} className="ml-8">
         <div className="form-header flex w-full justify-between items-center mb-8">
           <p className="text-xl">Add New Product</p>
           <div className="form-action flex gap-x-2">
@@ -36,7 +84,10 @@ const AddProduct = () => {
               <Trash />
               Discard
             </Button>
-            <Button className="space-x-1  text-sm flex items-center justify-evenly">
+            <Button
+              type="submit"
+              className="space-x-1  text-sm flex items-center justify-evenly"
+            >
               <Save />
               Save
             </Button>
@@ -56,14 +107,19 @@ const AddProduct = () => {
             </div>
             <div className="form-field grid gap-y-2">
               <Label className="!text-neutral-500  ">Product Category</Label>
-              <Select >
+              <Select
+                onValueChange={(value) =>
+                  handleValueChange(value, "productCategory")
+                }
+                name="productCategory"
+              >
                 <SelectTrigger className="w-full bg-white">
                   <SelectValue placeholder="Product Category" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Categories</SelectLabel>
-                    {year.map((item, index) => {
+                    {productCategory.map((item, index) => {
                       return (
                         <SelectItem key={`yr-${index}`} value={item.label}>
                           {item.label}
@@ -77,7 +133,7 @@ const AddProduct = () => {
             <div className="form-field grid gap-y-2">
               <Label className="!text-neutral-500  ">Descriptions</Label>
               <Textarea
-                name="description"
+                name="productDescription"
                 onChange={handleChange}
                 className="!h-24"
                 placeholder="Description"
@@ -86,7 +142,7 @@ const AddProduct = () => {
             <div className="form-field grid gap-y-2">
               <Label className="!text-neutral-500  ">Tag Keyword</Label>
               <Textarea
-                name="tag"
+                name="productKeyword"
                 className="!h-24"
                 onChange={handleChange}
                 placeholder="Tag Keyword"
@@ -97,7 +153,8 @@ const AddProduct = () => {
               <Label className="!text-neutral-500 ">Price</Label>
               <Input
                 type="number"
-                name="Price"
+                min={1}
+                name="productPrice"
                 placeholder="Price"
                 onChange={handleChange}
               />
@@ -107,21 +164,26 @@ const AddProduct = () => {
                 <Label className="!text-neutral-500">Discount</Label>
                 <Input
                   type="number"
-                  name="discount"
+                  name="productDiscount"
                   placeholder="Discount"
                   onChange={handleChange}
                 />
               </div>
               <div className="form-field col-span-6 space-y-2">
                 <Label className="!text-neutral-500">Discount Category</Label>
-                <Select>
+                <Select
+                  onValueChange={(value) =>
+                    handleValueChange(value, "productDiscountCategory")
+                  }
+                  name="productDiscountCategory"
+                >
                   <SelectTrigger className="w-full bg-white">
                     <SelectValue placeholder="Discount" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Categories</SelectLabel>
-                      {year.map((item, index) => {
+                      {discountCategory.map((item, index) => {
                         return (
                           <SelectItem key={`yr-${index}`} value={item.label}>
                             {item.label}
@@ -151,6 +213,7 @@ const AddProduct = () => {
                   className="h-48 absolute w-full border-none opacity-0"
                   multiple
                   accept="image/*"
+                  name="productPreview"
                 />
                 <div className="upload place-items-center space-y-2 text-neutral-500">
                   <UploadIcon />{" "}
@@ -171,6 +234,8 @@ const AddProduct = () => {
                   id="file-input"
                   className="h-48 absolute w-full border-none opacity-0"
                   accept="image/*"
+                  onChange={handleImgChange}
+                  name="productThumbnail"
                 />
                 <div className="upload place-items-center space-y-2 text-neutral-500">
                   <UploadIcon />{" "}

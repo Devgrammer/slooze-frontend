@@ -1,0 +1,26 @@
+[
+  {
+    "label": "Seasonal",
+    "value": "seasonal"
+  },
+  {
+    "label": "Flash Sale",
+    "value": "flash_sale"
+  },
+  {
+    "label": "Clearance",
+    "value": "clearance"
+  },
+  {
+    "label": "Member Only",
+    "value": "member_only"
+  },
+  {
+    "label": "Holiday",
+    "value": "holiday"
+  },
+  {
+    "label": "None",
+    "value": "none"
+  }
+]
