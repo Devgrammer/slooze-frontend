@@ -30,11 +30,30 @@ function App() {
       <Route path="/sign-up" element={<Signup />} />
       <Route path="/login" element={<Login />} />
       <Route path="/" element={<Layout />}>
-       
-          <Route path="dashboard" element={ <ProtectedRoute><DashBoard /> </ProtectedRoute>} />
-          <Route path="product" element={<Product />} />
-          <Route path="add-product" element={<AddProduct />} />
-       
+        <Route
+          path="dashboard"
+          element={
+            <ProtectedRoute>
+              <DashBoard />{" "}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="product"
+          element={
+            <ProtectedRoute>
+              <Product />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="add-product"
+          element={
+            <ProtectedRoute>
+              <AddProduct />
+            </ProtectedRoute>
+          }
+        />
       </Route>
     </Routes>
   );

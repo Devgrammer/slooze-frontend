@@ -5,15 +5,18 @@ import './index.css'
 import App from './App.tsx'
 import { ThemeProvider } from "./context/theme.tsx"
 import { AuthProvider } from './context/authContext.tsx';
+import { Toaster } from "@/components/ui/sonner";
+
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
-        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <AuthProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <AuthProvider>
           <App />
-      </AuthProvider>
-        </ThemeProvider>
+          <Toaster position="top-center" />
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   </StrictMode>
 );
