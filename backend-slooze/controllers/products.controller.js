@@ -157,10 +157,11 @@ module.exports.getAllProduct = async (req, res, next) => {
     }
 
     const userId = req.user._id;
+    console.log('dd',userId)
 
     try {
-        const products = await productModel.findOne({
-            user: req.user._id
+        const products = await productModel.find({
+            user: userId
         }).sort({ createdAt: -1 });;
 
 

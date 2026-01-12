@@ -64,7 +64,18 @@ const AddProduct = () => {
       });
       if (response.status === 201) {
         toast.success("Product Added Succesfully");
-        console.log("proadded", response.data);
+        setFormData({
+          productName: "",
+          productCategory: "",
+          productDescription: "",
+          productKeyword: [],
+          productPrice: 0,
+          productDiscount: 0,
+          productDiscountCategory: "",
+          productThumbnail: "",
+          productPreview: [],
+          user: "",
+        });
       }
     } catch (error) {
       console.error(error);
@@ -74,7 +85,14 @@ const AddProduct = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+     const { name, type } = e.target;
+    setFormData({
+      ...formData,
+      [name]:
+        type === "number"
+          ? Number(e.target.value) || 0 
+          : e.target.value,
+    });
   };
   const handleKeywordChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -142,7 +160,7 @@ const AddProduct = () => {
                     <SelectLabel>Categories</SelectLabel>
                     {productCategory.map((item, index) => {
                       return (
-                        <SelectItem key={`yr-${index}`} value={item.label}>
+                        <SelectItem key={`yr-${index}`} value={item.value}>
                           {item.label}
                         </SelectItem>
                       );
@@ -208,7 +226,7 @@ const AddProduct = () => {
                       <SelectLabel>Categories</SelectLabel>
                       {discountCategory.map((item, index) => {
                         return (
-                          <SelectItem key={`yr-${index}`} value={item.label}>
+                          <SelectItem key={`yr-${index}`} value={item.value}>
                             {item.label}
                           </SelectItem>
                         );

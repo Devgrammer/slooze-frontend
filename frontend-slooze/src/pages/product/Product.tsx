@@ -4,10 +4,16 @@ import { Card, CardContent } from '../../components/ui/card'
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '../../components/ui/chart'
 import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 import PageTitleBar from '../../components/pagetitlebar/PageTitleBar'
+import { API_URLS } from '@/constant/api'
+import axios from 'axios'
+import { useAuth } from '@/context/authContext'
+import { useEffect } from 'react'
 
 
 
 const Product = () => {
+  const token = sessionStorage.getItem('token');
+  const {setError} = useAuth();
 
   const data:TData[] = [
     {
@@ -125,7 +131,7 @@ const Product = () => {
     { month: "November", desktop: 180, mobile: 320 },
     { month: "December", desktop: 120, mobile: 280 },
   ];
-const chartConfig = {
+  const chartConfig = {
     desktop: {
       label: "Desktop",
       color: "var(--chart-6)",
@@ -135,6 +141,29 @@ const chartConfig = {
       color: "var(--chart-5)",
     },
   } satisfies ChartConfig;
+
+ 
+
+  const fetchProduct = async()=>{
+    try{
+      const response = await axios.get(API_URLS.PRODUCTS.ALL, {
+        headers:{
+            authorization: `Bearer ${token}`,
+        }
+      });
+
+        if(response.status === 201){
+        console.log('product', response.data)
+      }
+    }catch(error){
+      console.error(error)
+      setError(JSON.stringify(error))
+    }
+  }
+
+ useEffect(() => {
+   fetchProduct();
+ }, []);
   return (
     <div>
      <PageTitleBar title="Product" path="/add-product" buttonTitle='Add Product'/>
