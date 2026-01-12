@@ -23,7 +23,7 @@ app.use(session({
     secret: 'slooze-key', 
     resave: false, 
     saveUninitialized: false, 
-    cookie: { secure: process.env.NODE_ENV === 'production' } 
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } 
 }))
 
 app.use(function (req, res, next) {
