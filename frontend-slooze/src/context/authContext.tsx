@@ -6,7 +6,7 @@ import React, {
 } from "react";
 
 interface User {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   role?: string;

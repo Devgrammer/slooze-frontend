@@ -11,61 +11,82 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { Save, Trash, UploadIcon } from "lucide-react";
+import { Save, Trash } from "lucide-react";
 import PageTitleBar from "../../components/pagetitlebar/PageTitleBar";
-import productCategory from "../../data/productcategory.json"
-import discountCategory from "../../data/discountcategory.json"
-import { useState ,type ChangeEvent } from "react";
+import productCategory from "../../data/productcategory.json";
+import discountCategory from "../../data/discountcategory.json";
+import { useState, type ChangeEvent } from "react";
+import ImageUploader from "@/components/imageuploader/ImageUploader";
+import axios from "axios";
+import { useAuth } from "@/context/authContext";
+import { toast } from "sonner";
+import { API_URLS } from "@/constant/api";
 
-
-type ProductType={
-  "productName": string;
-  "productCategory": string;
-  "productDescription": string;
-  "productKeyword": string[],
-  "productPrice": number;
-  "productDiscount":number;
-  "productDiscountCategory": string;
-  "productThumbnail": string;
-  "productPreview": string[];
-}
+export type ProductType = {
+  productName: string;
+  productCategory: string;
+  productDescription: string;
+  productKeyword: string[];
+  productPrice: number;
+  productDiscount: number;
+  productDiscountCategory: string;
+  productThumbnail: string;
+  productPreview: string[];
+  user: string | undefined;
+};
 
 const AddProduct = () => {
-  const [formData,setFormData]= useState<ProductType>({
-  "productName": "",
-  "productCategory": "",
-  "productDescription": "",
-  "productKeyword":[],
-  "productPrice": 0,
-  "productDiscount":0,
-  "productDiscountCategory": "",
-  "productThumbnail": "",
-  "productPreview": []
-});
-    const handleSubmit = async (
-      e: React.FormEvent<HTMLFormElement>
-    ) => {
-      e.preventDefault();
-      console.log("addproduct", formData);
-    };
+  const { user } = useAuth();
+  const token = sessionStorage.getItem("token");
+
+  const [formData, setFormData] = useState<ProductType>({
+    productName: "",
+    productCategory: "",
+    productDescription: "",
+    productKeyword: [],
+    productPrice: 0,
+    productDiscount: 0,
+    productDiscountCategory: "",
+    productThumbnail: "",
+    productPreview: [],
+    user: "",
+  });
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setFormData({ ...formData, user: user?._id });
+    toast.success("Hello World");
+
+    try {
+      const response = await axios.post(API_URLS.PRODUCTS.ADD, formData, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 201) {
+        toast.success("Product Added Succesfully");
+        console.log("proadded", response.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement >
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const handleImgChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement >
+  const handleKeywordChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    
-console.log('img', e.target.value)
+    setFormData({ ...formData, [e.target.name]: [e.target.value] });
   };
 
-  const handleValueChange = (
-    value: string, name:string
-  ) => {
- setFormData({ ...formData, [name]:value });
+  const handleValueChange = (value: string, name: string) => {
+    setFormData({ ...formData, [name]: value });
   };
+
+  console.log("formData", formData);
   return (
     <div className="add-product-container space-y-12">
       <PageTitleBar
@@ -102,7 +123,7 @@ console.log('img', e.target.value)
                 type="text"
                 name="productName"
                 placeholder="Product Name"
-                onChange={handleChange}
+                onBlur={handleChange}
               />
             </div>
             <div className="form-field grid gap-y-2">
@@ -134,7 +155,7 @@ console.log('img', e.target.value)
               <Label className="!text-neutral-500  ">Descriptions</Label>
               <Textarea
                 name="productDescription"
-                onChange={handleChange}
+                onBlur={handleChange}
                 className="!h-24"
                 placeholder="Description"
               />
@@ -144,7 +165,7 @@ console.log('img', e.target.value)
               <Textarea
                 name="productKeyword"
                 className="!h-24"
-                onChange={handleChange}
+                onBlur={handleKeywordChange}
                 placeholder="Tag Keyword"
               />
             </div>
@@ -156,7 +177,7 @@ console.log('img', e.target.value)
                 min={1}
                 name="productPrice"
                 placeholder="Price"
-                onChange={handleChange}
+                onBlur={handleChange}
               />
             </div>
             <div className="form-field grid grid-cols-12 gap-x-4">
@@ -166,7 +187,9 @@ console.log('img', e.target.value)
                   type="number"
                   name="productDiscount"
                   placeholder="Discount"
-                  onChange={handleChange}
+                  min={0}
+                  max={100}
+                  onBlur={handleChange}
                 />
               </div>
               <div className="form-field col-span-6 space-y-2">
@@ -206,20 +229,11 @@ console.log('img', e.target.value)
                   Drag and drop you image here
                 </Label>
               </div>
-              <div className="image-uploader relative flex justify-center items-center h-48  rounded-lg border ">
-                <Input
-                  type="file"
-                  id="file-input"
-                  className="h-48 absolute w-full border-none opacity-0"
-                  multiple
-                  accept="image/*"
-                  name="productPreview"
-                />
-                <div className="upload place-items-center space-y-2 text-neutral-500">
-                  <UploadIcon />{" "}
-                  <span className="text-sm ">Drag and drop Here</span>
-                </div>
-              </div>
+              <ImageUploader
+                name={"productPreview"}
+                formData={formData}
+                setFormData={setFormData}
+              />
             </div>
             <div className="form-field grid gap-y-2">
               <div className="label-header space-y-1">
@@ -228,20 +242,12 @@ console.log('img', e.target.value)
                   Drag and drop you image here
                 </Label>
               </div>
-              <div className="image-uploader relative flex justify-center items-center h-48  rounded-lg border ">
-                <Input
-                  type="file"
-                  id="file-input"
-                  className="h-48 absolute w-full border-none opacity-0"
-                  accept="image/*"
-                  onChange={handleImgChange}
-                  name="productThumbnail"
-                />
-                <div className="upload place-items-center space-y-2 text-neutral-500">
-                  <UploadIcon />{" "}
-                  <span className="text-sm ">Drag and drop Here</span>
-                </div>
-              </div>
+
+              <ImageUploader
+                name={"productThumbnail"}
+                formData={formData}
+                setFormData={setFormData}
+              />
             </div>
           </div>
         </div>
