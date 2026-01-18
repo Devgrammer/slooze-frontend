@@ -47,7 +47,7 @@ const BarCharts = ({dataX, cl}:AnalyticsChartProps) => {
   return (
        <Card className={cn("dash-bar ",cl)}>
           <CardContent>
-            <ChartContainer config={chartConfig}>
+            <ChartContainer config={chartConfig} className="min-h-[400px] w-full">
               <BarChart accessibilityLayer data={dataX}>
                 <CartesianGrid vertical={false} />
                 <XAxis

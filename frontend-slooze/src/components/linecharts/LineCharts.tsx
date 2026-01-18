@@ -46,7 +46,7 @@ const LineCharts = ({ dataX, cl }: AnalyticsChartProps) => {
   return (
     <Card className={cn("dash-bar ", cl)}>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="min-h-[400px] w-full">
           <LineChart accessibilityLayer data={dataX}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -61,17 +61,17 @@ const LineCharts = ({ dataX, cl }: AnalyticsChartProps) => {
               content={<ChartTooltipContent hideLabel />}
             />
             <Line
-                                dataKey="desktop"
-                                type="natural"
-                                stroke="var(--color-desktop)"
-                                strokeWidth={2}
-                                dot={{
-                                  fill: "var(--color-desktop)",
-                                }}
-                                activeDot={{
-                                  r: 6,
-                                }}
-                              />
+              dataKey="desktop"
+              type="natural"
+              stroke="var(--color-desktop)"
+              strokeWidth={2}
+              dot={{
+                fill: "var(--color-desktop)",
+              }}
+              activeDot={{
+                r: 6,
+              }}
+            />
           </LineChart>
         </ChartContainer>
       </CardContent>

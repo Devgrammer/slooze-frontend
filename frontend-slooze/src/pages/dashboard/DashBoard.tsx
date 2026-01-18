@@ -55,12 +55,12 @@ const DashBoard = () => {
       />
 
       {/* STAT FIGURES */}
-      <section className="dashboard-stats grid grid-cols-12 gap-x-4">
+      <section className="dashboard-stats grid grid-cols-1 lg:grid-cols-12 gap-y-4 lg:gap-x-4">
         {Array(4)
           .fill(0)
           .map(() => {
             return (
-              <Card className="@container/card col-span-3">
+              <Card className="@container/card col-span-12 lg:col-span-3">
                 <CardHeader>
                   <CardDescription className="font-semibold">
                     Total Revenue
@@ -76,7 +76,9 @@ const DashBoard = () => {
                 </CardHeader>
                 <CardFooter className="flex items-center gap-1.5 text-sm ">
                   <div className="text-muted-foreground">Trend Title</div>
-                  <div className=" flex items-center text-green-600">3.54% <ArrowUpIcon size={14}/></div>
+                  <div className=" flex items-center text-green-600">
+                    3.54% <ArrowUpIcon size={14} />
+                  </div>
                 </CardFooter>
               </Card>
             );
@@ -84,11 +86,15 @@ const DashBoard = () => {
       </section>
 
       {/* BAR GRAPH SECTION */}
-      <section className="dashboard-graph grid grid-cols-12 gap-x-4 max-h-fit ">
+      <section className="dashboard-graph grid grid-cols-1 lg:grid-cols-12 gap-y-4 lg:gap-x-4 max-h-fit ">
         {/* GRAPH PANE */}
-        <BarCharts dataX={chartData} dataY={year} cl={"col-span-7"} />
+        <BarCharts
+          dataX={chartData}
+          dataY={year}
+          cl={"col-span-12 lg:col-span-7"}
+        />
         {/* SALE PANE*/}
-        <Card className="dash-recent-sales col-span-5 ">
+        <Card className="dash-recent-sales col-span-12 lg:col-span-5 ">
           <CardHeader>
             <CardTitle>Recent Sales</CardTitle>
             <CardDescription>
@@ -132,183 +138,223 @@ const DashBoard = () => {
       {/* STAT SECTION */}
       <section className="stat space-y-4 ">
         {/* FILTERS */}
-        <div className="stat filters flex gap-x-4 w-full justify-start items-center">
+        <div className="stat filters flex flex-col lg:flex-row gap-y-4 lg:gap-x-4 w-full justify-start items-center">
           <div className="stat-heading text-4xl">Stats</div>
           {/* YEAR */}
-          <Select >
-            <SelectTrigger className="w-[100px] bg-white">
-              <SelectValue placeholder="Year" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Year</SelectLabel>
-                {year.map((item, index) => {
-                  return (
-                    <SelectItem key={`yr-${index}`} value={item.value.toString()}>
-                      {item.label}
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <div className="flex gap-x-4">
+            <Select>
+              <SelectTrigger className="w-[100px] bg-white">
+                <SelectValue placeholder="Year" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Year</SelectLabel>
+                  {year.map((item, index) => {
+                    return (
+                      <SelectItem
+                        key={`yr-${index}`}
+                        value={item.value.toString()}
+                      >
+                        {item.label}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
 
-          {/* DATE */}
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                id="date-picker"
-                className="w-64 justify-between font-light text-sm text-neutral-600"
+            {/* DATE */}
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  id="date-picker"
+                  className="w-64 justify-between font-light text-sm text-neutral-600"
+                >
+                  {dateRange ? dateRange.toString() : "Select date"}
+                  <FaChevronDown />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-auto overflow-hidden p-0"
+                align="start"
               >
-                {dateRange ? dateRange.toString() : "Select date"}
-                <FaChevronDown />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-auto overflow-hidden p-0"
-              align="start"
-            >
-              <Calendar
-                mode="range"
-                defaultMonth={dateRange?.from}
-                selected={dateRange}
-                onSelect={setDateRange}
-                numberOfMonths={2}
-                className="rounded-lg border shadow-sm"
-              />
-            </PopoverContent>
-          </Popover>
-          <p>compare</p>
-          {/* YEAR */}
-          <Select>
-            <SelectTrigger className="w-[100px] bg-white">
-              <SelectValue placeholder="Year" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Year</SelectLabel>
-                {year.map((item, index) => {
-                  return (
-                    <SelectItem key={`yr-${index}`} value={item.value.toString()}>
-                      {item.label}
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+                <Calendar
+                  mode="range"
+                  defaultMonth={dateRange?.from}
+                  selected={dateRange}
+                  onSelect={setDateRange}
+                  numberOfMonths={2}
+                  className="rounded-lg border shadow-sm"
+                />
+              </PopoverContent>
+            </Popover>
+            <p>compare</p>
+            {/* YEAR */}
+            <Select>
+              <SelectTrigger className="w-[100px] bg-white">
+                <SelectValue placeholder="Year" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Year</SelectLabel>
+                  {year.map((item, index) => {
+                    return (
+                      <SelectItem
+                        key={`yr-${index}`}
+                        value={item.value.toString()}
+                      >
+                        {item.label}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* GRAPH SECTION */}
-        <div className="dashboard-graph grid grid-cols-12 gap-x-4 ">
+        <div className="dashboard-graph grid  grid-cols-1 lg:grid-cols-12 gap-y-4 lg:gap-x-4 ">
           {/* LINE GRAPH */}
-          <LineCharts dataX={chartData} dataY={year} cl={"col-span-8"} />
+          <LineCharts
+            dataX={chartData}
+            dataY={year}
+            cl={" col-span-12 lg:col-span-8"}
+          />
 
           {/* BAR GRAPH PANE*/}
-          <BarCharts dataX={chartData} dataY={year} cl={"col-span-4"} />
+          <BarCharts
+            dataX={chartData}
+            dataY={year}
+            cl={" col-span-12 lg:col-span-4"}
+          />
         </div>
 
         {/* LINE & BAR */}
-        <div className="dashboard-graph grid grid-cols-12 gap-x-4 ">
+        <div className="dashboard-graph grid gtid-cols-1 lg:grid-cols-12 gap-y-4 lg:gap-x-4 ">
           {/* BAR GRAPH PANE*/}
-          <BarCharts dataX={chartData} dataY={year} cl={"col-span-8"} />
+          <BarCharts
+            dataX={chartData}
+            dataY={year}
+            cl={" col-span-12 lg:col-span-8"}
+          />
 
           {/* GRAPH PANE */}
-          <LineCharts dataX={chartData} dataY={year} cl={"col-span-4"} />
+          <LineCharts
+            dataX={chartData}
+            dataY={year}
+            cl={" col-span-12 lg:col-span-4"}
+          />
         </div>
       </section>
 
       {/* STAT SECTION */}
       <section className="stat space-y-4 ">
         {/* FILTERS */}
-        <div className="stat filters flex gap-x-4 w-full justify-start items-center">
+        <div className="stat filters flex flex-col lg:flex-row gap-y-4 lg:gap-x-4 w-full justify-start items-center">
           <div className="stat-heading text-4xl">Stats</div>
           {/* YEAR */}
-          <Select >
-            <SelectTrigger className="w-[100px] bg-white">
-              <SelectValue placeholder="Year" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Year</SelectLabel>
-                {year.map((item, index) => {
-                  return (
-                    <SelectItem key={`yr-${index}`} value={item.value.toString()}>
-                      {item.label}
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <div className="flex gap-x-4">
+            <Select>
+              <SelectTrigger className="w-[100px] bg-white">
+                <SelectValue placeholder="Year" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Year</SelectLabel>
+                  {year.map((item, index) => {
+                    return (
+                      <SelectItem
+                        key={`yr-${index}`}
+                        value={item.value.toString()}
+                      >
+                        {item.label}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
 
-          {/* DATE */}
-          <Popover open={open} onOpenChange={setOpen}>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                id="date-picker"
-                className="w-64 justify-between font-light text-sm text-neutral-600"
+            {/* DATE */}
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  id="date-picker"
+                  className="w-64 justify-between font-light text-sm text-neutral-600"
+                >
+                  {dateRange ? dateRange.toString() : "Select date"}
+                  <FaChevronDown />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent
+                className="w-auto overflow-hidden p-0"
+                align="start"
               >
-                {dateRange ? dateRange.toString() : "Select date"}
-                <FaChevronDown />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent
-              className="w-auto overflow-hidden p-0"
-              align="start"
-            >
-              <Calendar
-                mode="range"
-                defaultMonth={dateRange?.from}
-                selected={dateRange}
-                onSelect={setDateRange}
-                numberOfMonths={2}
-                className="rounded-lg border shadow-sm"
-              />
-            </PopoverContent>
-          </Popover>
-          <p>compare</p>
-          {/* YEAR */}
-          <Select>
-            <SelectTrigger className="w-[100px] bg-white">
-              <SelectValue placeholder="Year" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Year</SelectLabel>
-                {year.map((item, index) => {
-                  return (
-                    <SelectItem key={`yr-${index}`} value={item.value.toString()}>
-                      {item.label}
-                    </SelectItem>
-                  );
-                })}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+                <Calendar
+                  mode="range"
+                  defaultMonth={dateRange?.from}
+                  selected={dateRange}
+                  onSelect={setDateRange}
+                  numberOfMonths={2}
+                  className="rounded-lg border shadow-sm"
+                />
+              </PopoverContent>
+            </Popover>
+            <p>compare</p>
+            {/* YEAR */}
+            <Select>
+              <SelectTrigger className="w-[100px] bg-white">
+                <SelectValue placeholder="Year" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Year</SelectLabel>
+                  {year.map((item, index) => {
+                    return (
+                      <SelectItem
+                        key={`yr-${index}`}
+                        value={item.value.toString()}
+                      >
+                        {item.label}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
 
         {/* AREA GRAPH */}
-        <div className="dashboard-graph grid grid-cols-12 gap-x-4 ">
+        <div className="dashboard-graph grid grid-cols-1 lg:grid-cols-12 gap-y-4 lg:gap-x-4 ">
           {/* GRAPH PANE */}
           {Array(3)
             .fill(0)
             .map(() => {
               return (
-                <AreaCharts dataX={chartData} dataY={year} cl={"col-span-4"} />
+                <AreaCharts
+                  dataX={chartData}
+                  dataY={year}
+                  cl={" col-span-12 lg:col-span-4"}
+                />
               );
             })}
         </div>
 
         {/* LINE & BAR */}
-        <div className="dashboard-graph grid grid-cols-12 gap-x-4 ">
+        <div className="dashboard-graph grid grid-cols-1 lg:grid-cols-12 gap-y-4 lg:gap-x-4 ">
           {/* BAR GRAPH PANE*/}
-          <BarCharts dataX={chartData} dataY={year} cl={"col-span-4"} />
+          <BarCharts
+            dataX={chartData}
+            dataY={year}
+            cl={" col-span-12 lg:col-span-4"}
+          />
 
           {/* TOP SALE PRODUCT PANE*/}
-          <Card className="dash-top-sales col-span-4 ">
+          <Card className="dash-top-sales  col-span-12 lg:col-span-4 ">
             <CardHeader>
               <CardTitle>Top Sales Product</CardTitle>
               <CardDescription>Manage you top sales.</CardDescription>
@@ -339,7 +385,7 @@ const DashBoard = () => {
           </Card>
 
           {/* PAYMENT HISTORY PANE*/}
-          <Card className="dash-payment-history col-span-4 ">
+          <Card className="dash-payment-history  col-span-12 lg:col-span-4 ">
             <CardHeader>
               <CardTitle>Payment History</CardTitle>
               <CardDescription>Manage your payments</CardDescription>

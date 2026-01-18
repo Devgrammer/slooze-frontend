@@ -48,7 +48,7 @@ const AreaCharts = ({ dataX,cl }: AnalyticsChartProps) => {
   return (
     <Card className={cn("dash-bar ", cl)}>
       <CardContent>
-        <ChartContainer config={chartConfig}>
+        <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
           <AreaChart accessibilityLayer data={dataX}>
             <CartesianGrid vertical={false} />
             <XAxis
