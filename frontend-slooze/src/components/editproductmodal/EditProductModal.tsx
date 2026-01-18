@@ -5,10 +5,8 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { LiaEditSolid } from "react-icons/lia";
 import ImageUploader from "../imageuploader/ImageUploader";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
@@ -25,24 +23,32 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useAuth } from "@/context/authContext";
 import { ProductType } from "@/pages/product/AddProduct";
-import { Save, Trash } from "lucide-react";
+import { Save } from "lucide-react";
 import productCategory from "../../data/productcategory.json";
 import discountCategory from "../../data/discountcategory.json";
 import { SelectItem } from "@radix-ui/react-select";
 import { API_URLS } from "@/constant/api";
 
-export type PDataType = {
-  pData: ProductType & {
+export type ProdDataType = {
+  prodData: ProductType & {
     _id: string;
     createdAt: string;
     updatedAt: string;
     __v: number;
   };
+
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const EditProductModal = ({ pData, isOpen, setIsOpen }: PDataType) => {
+export type PDataType = ProductType & {
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+
+const EditProductModal = ({ prodData, isOpen, setIsOpen }: ProdDataType) => {
   const { user } = useAuth();
   const token = sessionStorage.getItem("token");
   const isProcessingRef = useRef(false);
@@ -63,13 +69,25 @@ const EditProductModal = ({ pData, isOpen, setIsOpen }: PDataType) => {
     e.preventDefault();
     setFormData({ ...formData, user: user?._id });
     toast.success("Hello World");
-    const productId = pData._id;
+    const productId = prodData._id;
 
     try {
-      const { createdAt, updatedAt, _id, __v, ...productData } = formData;
+      const updatedDate = {
+        productName: formData.productName,
+        productCategory: formData.productCategory,
+        productDescription: formData.productDescription,
+        productKeyword: formData.productKeyword,
+        productPrice: formData.productPrice,
+        productDiscount: formData.productDiscount,
+        productDiscountCategory: formData.productDiscountCategory,
+        productThumbnail: formData.productThumbnail,
+        productPreview: formData.productPreview,
+        user: formData.user,
+      };
+
       const response = await axios.put(
         API_URLS.PRODUCTS.UPDATE.replace(":id", productId),
-        productData,
+        updatedDate,
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -123,8 +141,8 @@ const EditProductModal = ({ pData, isOpen, setIsOpen }: PDataType) => {
   };
 
   useEffect(() => {
-    setFormData(pData);
-  }, [pData]);
+    setFormData(prodData);
+  }, [prodData]);
 
   return (
     <Sheet modal={false} open={isOpen} onOpenChange={setIsOpen}>
@@ -135,30 +153,21 @@ const EditProductModal = ({ pData, isOpen, setIsOpen }: PDataType) => {
       >
         <SheetHeader>
           <SheetTitle>Edit</SheetTitle>
-          <SheetDescription>Edit your profile data here</SheetDescription>
+          <SheetDescription>Edit your product data here</SheetDescription>
         </SheetHeader>
 
         {/* PRODUCT FORM */}
         <div className="edit-product-container grid flex-1 auto-rows-min gap-6 px-4">
           <form onSubmit={handleSubmit} className="p-2">
             <div className="form-header flex w-full justify-between items-center mb-8">
-              <p className="text-xl">Add New Product</p>
-              <div className="form-action flex gap-x-2">
-                <Button
-                  variant={"outline"}
-                  className="space-x-1 text-sm flex items-center justify-evenly"
-                >
-                  <Trash />
-                  Discard
-                </Button>
-                <Button
-                  type="submit"
-                  className="space-x-1  text-sm flex items-center justify-evenly"
-                >
-                  <Save />
-                  Save
-                </Button>
-              </div>
+              <p className="text-xl">Edit Product Details</p>
+              <Button
+                type="submit"
+                className="space-x-1  text-sm flex items-center justify-evenly"
+              >
+                <Save />
+                Save
+              </Button>
             </div>
             <div className="form-container  grid grid-cols-12 space-y-6">
               <div className="left-pane col-span-12 space-y-6">

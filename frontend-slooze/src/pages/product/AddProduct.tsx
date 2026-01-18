@@ -53,8 +53,7 @@ const AddProduct = () => {
   });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormData({ ...formData, user: user?._id })
-    console.log('gh', formData)
+    setFormData({ ...formData, user: user?._id });
     try {
       const response = await axios.post(API_URLS.PRODUCTS.ADD, formData, {
         headers: {
@@ -84,13 +83,10 @@ const AddProduct = () => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-     const { name, type } = e.target;
+    const { name, type } = e.target;
     setFormData({
       ...formData,
-      [name]:
-        type === "number"
-          ? Number(e.target.value) || 0 
-          : e.target.value,
+      [name]: type === "number" ? Number(e.target.value) || 0 : e.target.value,
     });
   };
   const handleKeywordChange = (
@@ -103,7 +99,6 @@ const AddProduct = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  console.log("formData", formData);
   return (
     <div className="add-product-container space-y-12">
       <PageTitleBar

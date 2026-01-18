@@ -14,6 +14,6 @@ export const API_URLS = {
         ADD: `${API_BASE}/products/add-product`,
         BY_ID: `${API_BASE}/products/:id`,
         UPDATE: `${API_BASE}/products/update-product/:id`,
-        DELETE: `${API_BASE}/products/:id`,
+        DELETE: `${API_BASE}/products/delete-product/:id`,
     }
 }
