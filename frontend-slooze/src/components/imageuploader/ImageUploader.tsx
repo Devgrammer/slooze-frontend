@@ -16,6 +16,7 @@ interface ImageUploaderPropType {
     name:string;
     formData:ProductType
   setFormData: Dispatch<SetStateAction<ProductType>>;
+  value?:string
 }
 
 interface ImageKitResponseType {
@@ -36,7 +37,7 @@ interface ImageKitResponseType {
   description?: string | null;
 }
 // UploadExample component demonstrates file uploading using ImageKit's React SDK.
-const ImageUploader = ({name,formData, setFormData}:ImageUploaderPropType) => {
+const ImageUploader = ({name,formData, setFormData , value}:ImageUploaderPropType) => {
   // State to keep track of the current upload progress (percentage)
   const [progress, setProgress] = useState(0);
   const [uploadStarted, setUploadStarted] = useState(false);
@@ -136,7 +137,7 @@ const ImageUploader = ({name,formData, setFormData}:ImageUploaderPropType) => {
         name === "productThumbnail"
           ? uploadResponse?.thumbnailUrl
           : [uploadResponse?.url];
-     
+     console.log('12', imgURl)
       setFormData({ ...formData, [name]: imgURl});
 
       console.log("Upload response:", uploadResponse, name, setFormData);
@@ -171,27 +172,42 @@ const ImageUploader = ({name,formData, setFormData}:ImageUploaderPropType) => {
         ref={fileInputRef}
         onChange={handleUpload}
       />
-      {/* Button to trigger the upload process */}
-      {!uploadStarted && (
-        <div
-          onClick={handleUpload}
-          className="upload place-items-center space-y-2 text-neutral-500 mx-auto"
-        >
-          <UploadIcon /> <span className="text-sm ">Drag and drop Here</span>
-        </div>
-      )}
-      <br />
-      {/* Display the current upload progress */}
-      {uploadStarted && !uploadingResponse && (
-        <Progress value={progress} max={100} className="w-[60%]" />
-      )}
-      {uploadingResponse && (
-        <div
-          className="bg-cover bg-center w-24 h-24 rounded-xl"
-          style={{ backgroundImage: `url(${uploadingResponse.url})` }}
-        >
-        </div>
-      )}
+      {value && !uploadingResponse ? <>
+          {
+            <div
+              className="bg-cover bg-center w-24 h-24 rounded-xl"
+              style={{
+                backgroundImage: `url(${value})`,
+              }}
+            ></div>
+          }
+        </>: (
+        <>
+          {/* Button to trigger the upload process */}
+          {!uploadStarted && (
+            <div
+              onClick={handleUpload}
+              className="upload place-items-center space-y-2 text-neutral-500 mx-auto"
+            >
+              <UploadIcon />{" "}
+              <span className="text-sm ">Drag and drop Here</span>
+            </div>
+          )}
+          <br />
+          {/* Display the current upload progress */}
+          {uploadStarted && !uploadingResponse && (
+            <Progress value={progress} max={100} className="w-[60%]" />
+          )}
+          {uploadingResponse &&  (
+            <div
+              className="bg-cover bg-center w-24 h-24 rounded-xl"
+              style={{
+                backgroundImage: `url(${uploadingResponse.url})`,
+              }}
+            ></div>
+          )}
+        </>
+      ) }
     </div>
   );
 };

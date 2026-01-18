@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_BASE_API_URL ;
+const API_BASE = import.meta.env.VITE_BASE_API_URLD ;
 
 
 export const API_URLS = {
@@ -13,7 +13,7 @@ export const API_URLS = {
         ALL: `${API_BASE}/products`,
         ADD: `${API_BASE}/products/add-product`,
         BY_ID: `${API_BASE}/products/:id`,
-        UPDATE: `${API_BASE}/products/:id`,
+        UPDATE: `${API_BASE}/products/update-product/:id`,
         DELETE: `${API_BASE}/products/:id`,
     }
 }

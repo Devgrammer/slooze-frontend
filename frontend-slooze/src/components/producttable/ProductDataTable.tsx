@@ -1,4 +1,3 @@
-
 import {
   flexRender,
   getCoreRowModel,
@@ -22,10 +21,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {useState}from "react";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-
+import EditProductModal, {
+  PDataType,
+} from "../editproductmodal/EditProductModal";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -36,9 +37,10 @@ export function ProductDataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] =
-      useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [pData, setPData] = useState<PDataType>();
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
     columns,
@@ -52,17 +54,25 @@ export function ProductDataTable<TData, TValue>({
       sorting,
       columnFilters,
     },
+    meta: {
+      isOpenModal,
+      setIsOpenModal,
+      pData,
+      setPData,
+    },
   });
 
   return (
     <div className="overflow-hidden rounded-md border">
       <div className="flex items-center p-4 ">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("product")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("product")?.setFilterValue(event.target.value)
+          placeholder="Filter products"
+          value={
+            (table.getColumn("productName")?.getFilterValue() as string) ?? ""
           }
+          onChange={(event) => {
+            table.getColumn("productName")?.setFilterValue(event.target.value);
+          }}
           className="max-w-sm"
         />
       </div>
@@ -108,6 +118,13 @@ export function ProductDataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
+      {pData && (
+        <EditProductModal
+          pData={pData}
+          isOpen={isOpenModal}
+          setIsOpen={setIsOpenModal}
+        />
+      )}
       <div className="flex items-center justify-end space-x-2 p-6">
         <Button
           variant="outline"

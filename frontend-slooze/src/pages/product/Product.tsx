@@ -7,13 +7,16 @@ import PageTitleBar from '../../components/pagetitlebar/PageTitleBar'
 import { API_URLS } from '@/constant/api'
 import axios from 'axios'
 import { useAuth } from '@/context/authContext'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+
 
 
 
 const Product = () => {
   const token = sessionStorage.getItem('token');
   const {setError} = useAuth();
+  const [productData, setProductData]= useState([])
 
   const data:TData[] = [
     {
@@ -153,7 +156,7 @@ const Product = () => {
       });
 
         if(response.status === 201){
-        console.log('product', response.data)
+          setProductData(response.data.data)
       }
     }catch(error){
       console.error(error)
@@ -164,12 +167,17 @@ const Product = () => {
  useEffect(() => {
    fetchProduct();
  }, []);
+
   return (
     <div>
-     <PageTitleBar title="Product" path="/add-product" buttonTitle='Add Product'/>
+      <PageTitleBar
+        title="Product"
+        path="/add-product"
+        buttonTitle="Add Product"
+      />
       <div className="Product-container grid grid-cols-12 gap-x-4">
         <div className="table-box col-span-9">
-          <ProductDataTable columns={columns}  data={data} />
+          <ProductDataTable columns={columns} data={productData} />
         </div>
         <div className="area-graph-pane col-span-3">
           {/* GRAPH PANE */}
@@ -216,6 +224,7 @@ const Product = () => {
           </Card>
         </div>
       </div>
+      
     </div>
   );
 }

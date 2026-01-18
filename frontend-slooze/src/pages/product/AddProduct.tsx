@@ -53,9 +53,8 @@ const AddProduct = () => {
   });
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setFormData({ ...formData, user: user?._id });
-    toast.success("Hello World");
-
+    setFormData({ ...formData, user: user?._id })
+    console.log('gh', formData)
     try {
       const response = await axios.post(API_URLS.PRODUCTS.ADD, formData, {
         headers: {
