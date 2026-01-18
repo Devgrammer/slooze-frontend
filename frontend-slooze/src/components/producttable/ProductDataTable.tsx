@@ -24,13 +24,29 @@ import {
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import EditProductModal, {
-  PDataType,
-} from "../editproductmodal/EditProductModal";
-
+import EditProductModal from "../editproductmodal/EditProductModal";
+import { toast } from "sonner";
+import { API_URLS } from "@/constant/api";
+import axios from "axios";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+}
+export interface PDataType {
+  productName: string;
+  productCategory: string;
+  productDescription: string;
+  productKeyword: string[];
+  productPrice: number;
+  productDiscount: number;
+  productDiscountCategory: string;
+  productThumbnail: string;
+  productPreview: string[];
+  user: string;
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 export function ProductDataTable<TData, TValue>({
@@ -41,6 +57,25 @@ export function ProductDataTable<TData, TValue>({
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [pData, setPData] = useState<PDataType>();
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const token = sessionStorage.getItem("token");
+  const handleDeleteProduct = async (productId: string) => {
+    try {
+      const response = await axios.delete(
+        API_URLS.PRODUCTS.DELETE.replace(":id", productId),
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 201) {
+        toast.success("Product Deleted Succesfully");
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const table = useReactTable({
     data,
     columns,
@@ -54,11 +89,17 @@ export function ProductDataTable<TData, TValue>({
       sorting,
       columnFilters,
     },
+    defaultColumn: {
+      size: 150, // Default width for all columns
+      minSize: 50,
+      maxSize: 500,
+    },
     meta: {
       isOpenModal,
       setIsOpenModal,
       pData,
       setPData,
+      handleDeleteProduct,
     },
   });
 
@@ -82,7 +123,10 @@ export function ProductDataTable<TData, TValue>({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead
+                    key={header.id}
+                    style={{ width: header.getSize() }}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -103,7 +147,10 @@ export function ProductDataTable<TData, TValue>({
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <TableCell
+                    key={cell.id}
+                    style={{ width: cell.column.getSize() }}
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
@@ -120,7 +167,7 @@ export function ProductDataTable<TData, TValue>({
       </Table>
       {pData && (
         <EditProductModal
-          pData={pData}
+          prodData={pData}
           isOpen={isOpenModal}
           setIsOpen={setIsOpenModal}
         />

@@ -2,12 +2,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Button } from "../ui/button";
 import { ArrowUpDown, LucideTrash2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { ProductType } from "@/pages/product/AddProduct";
 import { LiaEditSolid } from "react-icons/lia";
-import EditProductModal from "../editproductmodal/EditProductModal";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
 export type TData = {
   productName: string;
   productCategory: string;
@@ -19,17 +14,14 @@ export type TData = {
   productThumbnail: string;
   productPreview: string[];
   user: string | undefined;
+  _id?: string | undefined;
 };
 
 type MetaData = {
   isOpenModal: boolean;
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
-  setPData: TData & {
-    createdAt: string;
-    __v: number;
-    uploadedAt: string;
-    _id: string;
-  };
+  setPData: React.Dispatch<React.SetStateAction<TData>>;
+  handleDeleteProduct: (productId: string) => Promise<void>;
 };
 
 export const columns: ColumnDef<TData>[] = [
@@ -37,10 +29,11 @@ export const columns: ColumnDef<TData>[] = [
     id: "productName",
     accessorKey: "productName",
     header: "Product Name",
+
     cell: ({ row }) => {
       const { productName, productThumbnail } = row.original;
       return (
-        <div className="product-colomn flex gap-x-2 items-center">
+        <div className="product-colomn flex flex-1 gap-x-2 items-center w-64">
           <Checkbox id="terms" />
           <img
             className="w-6 rounded-sm"
@@ -125,7 +118,10 @@ export const columns: ColumnDef<TData>[] = [
     header: "Manage",
     cell: ({ row, table }) => {
       const meta = table.options.meta;
-      const { setIsOpenModal, setPData } = meta as MetaData;
+      const { setIsOpenModal, setPData, handleDeleteProduct } =
+        meta as MetaData;
+      const productId = row?.original?._id;
+
       const handleEdit = () => {
         setIsOpenModal(true);
         setPData(row.original);
@@ -136,9 +132,15 @@ export const columns: ColumnDef<TData>[] = [
           <Button onClick={handleEdit} role={"danger"}>
             <LiaEditSolid size={16} />
           </Button>
-          <Button onClick={() => alert(`Deleting user `)}>
-            <LucideTrash2 size={16} />
-          </Button>
+          {productId && (
+            <Button
+              onClick={async () => {
+                await handleDeleteProduct(productId);
+              }}
+            >
+              <LucideTrash2 size={16} />
+            </Button>
+          )}
         </div>
       );
     },

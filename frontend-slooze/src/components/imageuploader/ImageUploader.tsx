@@ -1,5 +1,5 @@
 import { API_URLS } from "@/constant/api";
-import  { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import {
   ImageKitAbortError,
   ImageKitInvalidRequestError,
@@ -13,10 +13,10 @@ import { Progress } from "../ui/progress";
 import { UploadIcon } from "lucide-react";
 import { ProductType } from "@/pages/product/AddProduct";
 interface ImageUploaderPropType {
-    name:string;
-    formData:ProductType
+  name: string;
+  formData: ProductType;
   setFormData: Dispatch<SetStateAction<ProductType>>;
-  value?:string
+  value?: string;
 }
 
 interface ImageKitResponseType {
@@ -37,11 +37,17 @@ interface ImageKitResponseType {
   description?: string | null;
 }
 // UploadExample component demonstrates file uploading using ImageKit's React SDK.
-const ImageUploader = ({name,formData, setFormData , value}:ImageUploaderPropType) => {
+const ImageUploader = ({
+  name,
+  formData,
+  setFormData,
+  value,
+}: ImageUploaderPropType) => {
   // State to keep track of the current upload progress (percentage)
   const [progress, setProgress] = useState(0);
   const [uploadStarted, setUploadStarted] = useState(false);
-  const [uploadingResponse, setUploadingResponse] = useState<Partial<ImageKitResponseType | undefined>>();
+  const [uploadingResponse, setUploadingResponse] =
+    useState<Partial<ImageKitResponseType | undefined>>();
 
   // Create a ref for the file input element to access its files easily
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -101,8 +107,8 @@ const ImageUploader = ({name,formData, setFormData , value}:ImageUploaderPropTyp
 
     // Extract the first file from the file input
     const file = fileInput.files[0];
-    if(file){
-        setUploadStarted(true)
+    if (file) {
+      setUploadStarted(true);
     }
 
     // Retrieve authentication parameters for the upload.
@@ -132,15 +138,12 @@ const ImageUploader = ({name,formData, setFormData , value}:ImageUploaderPropTyp
         // Abort signal to allow cancellation of the upload if needed.
         abortSignal: abortController.signal,
       });
-      setUploadingResponse(uploadResponse)
+      setUploadingResponse(uploadResponse);
       const imgURl =
         name === "productThumbnail"
           ? uploadResponse?.thumbnailUrl
           : [uploadResponse?.url];
-     console.log('12', imgURl)
-      setFormData({ ...formData, [name]: imgURl});
-
-      console.log("Upload response:", uploadResponse, name, setFormData);
+      setFormData({ ...formData, [name]: imgURl });
     } catch (error) {
       // Handle specific error types provided by the ImageKit SDK.
       if (error instanceof ImageKitAbortError) {
@@ -158,10 +161,6 @@ const ImageUploader = ({name,formData, setFormData , value}:ImageUploaderPropTyp
     }
   };
 
-
-
-
-
   return (
     <div className="image-uploader relative flex justify-center items-center h-48  rounded-lg border p-4">
       {/* File input element using React ref */}
@@ -172,7 +171,8 @@ const ImageUploader = ({name,formData, setFormData , value}:ImageUploaderPropTyp
         ref={fileInputRef}
         onChange={handleUpload}
       />
-      {value && !uploadingResponse ? <>
+      {value && !uploadingResponse ? (
+        <>
           {
             <div
               className="bg-cover bg-center w-24 h-24 rounded-xl"
@@ -181,7 +181,8 @@ const ImageUploader = ({name,formData, setFormData , value}:ImageUploaderPropTyp
               }}
             ></div>
           }
-        </>: (
+        </>
+      ) : (
         <>
           {/* Button to trigger the upload process */}
           {!uploadStarted && (
@@ -198,7 +199,7 @@ const ImageUploader = ({name,formData, setFormData , value}:ImageUploaderPropTyp
           {uploadStarted && !uploadingResponse && (
             <Progress value={progress} max={100} className="w-[60%]" />
           )}
-          {uploadingResponse &&  (
+          {uploadingResponse && (
             <div
               className="bg-cover bg-center w-24 h-24 rounded-xl"
               style={{
@@ -207,7 +208,7 @@ const ImageUploader = ({name,formData, setFormData , value}:ImageUploaderPropTyp
             ></div>
           )}
         </>
-      ) }
+      )}
     </div>
   );
 };
